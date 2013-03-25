@@ -1,0 +1,2 @@
+module CubesstaticHelper
+end
