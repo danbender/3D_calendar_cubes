@@ -5,7 +5,7 @@ section, footer, nav {
 
 body {
   padding-top: 10px;
-  background: url(../assets/background.jpg)  top left no-repeat;
+  background: url(../img/background.jpg)  top left no-repeat;
   font-family: 'Helvetica Neue', Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   background-attachment: fixed;

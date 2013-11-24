@@ -1,8 +1,3 @@
-// ======================= DOM Utility Functions from PastryKit =============================== //
-
-// Sure, we could use jQuery or XUI for these, 
-// but these are concise and will work with plain vanilla JS
-
 Element.prototype.hasClassName = function (a) {
     return new RegExp("(?:^|\\s+)" + a + "(?:\\s+|$)").test(this.className);
 };
@@ -67,16 +62,16 @@ DDD.RangeDisplay = function ( range ) {
   this.range = range;
   this.output = document.createElement('span');
   this.output.addClassName('range-display');
-  
-  
+
+
   this.units = this.range.getAttribute('data-units') || '';
-  
+
   // this.output.textContent = this.range.value;
   this.change();
-  
-  
+
+
   this.range.parentNode.appendChild( this.output );
-  
+
   this.range.addEventListener( 'change', this, false);
 };
 
@@ -94,7 +89,7 @@ DDD.RangeDisplay.prototype.change = function( event ) {
 
 DDD.ProxyRange = function ( input ) {
   this.input = input;
-  
+
   this.slider = document.createElement('div');
   this.slider.addClassName('proxy-range');
 
@@ -105,27 +100,26 @@ DDD.ProxyRange = function ( input ) {
 
   this.width = parseInt( getComputedStyle( this.input ).width, 10);
   this.slider.style.width = this.width + 'px';
-  
+
   this.min = parseInt( this.input.getAttribute('min') || 0, 10 );
   this.max = parseInt( this.input.getAttribute('max') || 100, 10 );
-  
+
   this.normalizeRatio = ( this.max - this.min ) / ( this.width - DDD.ProxyRange.lineCap * 2 );
-  
+
   this.value = this.input.value;
 
   this.resetHandlePosition();
-  
+
   this.slider.addEventListener( DDD.CursorStartEvent, this, false );
   this.handle.addEventListener( DDD.CursorStartEvent, this, false );
-  
+
   this.input.parentNode.insertBefore( this.slider, this.input.nextSibling );
   this.input.style.display = 'none';
-  
+
   this.x = this.slider.offsetLeft;
-  
+
 };
 
-// constant for position the handle inside the slider
 DDD.ProxyRange.lineCap = 15;
 
 DDD.ProxyRange.prototype = new DDD.EventHandler();
@@ -134,15 +128,14 @@ DDD.ProxyRange.prototype.moveHandle = function( event ) {
   var cursor = DDD.isTangible ? event.touches[0] : event,
       x = cursor.pageX - this.x;
   x = Math.max( DDD.ProxyRange.lineCap, Math.min( this.width - DDD.ProxyRange.lineCap, x ) );
-  
+
   this.positionHandle( x );
-  
+
   this.value = Math.round( ( x - DDD.ProxyRange.lineCap ) * this.normalizeRatio + this.min );
-  
+
   if ( this.input.value != this.value ) {
     this.input.value = this.value;
 
-    // trigger change event
     var evt = document.createEvent("Event");
     evt.initEvent("change", true, true);
     this.input.dispatchEvent( evt );
@@ -162,26 +155,26 @@ DDD.ProxyRange.prototype.resetHandlePosition = function() {
 
 DDD.ProxyRange.prototype[ DDD.CursorStartEvent ] = function( event ) {
   this.slider.addClassName('highlighted');
-  
+
   this.moveHandle( event );
-  
+
   window.addEventListener( DDD.CursorMoveEvent, this, false );
   window.addEventListener( DDD.CursorEndEvent, this, false );
-  
+
   event.preventDefault();
 };
 
 DDD.ProxyRange.prototype[ DDD.CursorMoveEvent ] = function( event ) {
-  
+
   this.moveHandle( event );
-  
+
   event.preventDefault();
 };
 
 DDD.ProxyRange.prototype[ DDD.CursorEndEvent ] = function( event ) {
-  
+
   this.slider.removeClassName('highlighted');
-  
+
   window.removeEventListener( DDD.CursorMoveEvent, this, false );
   window.removeEventListener( DDD.CursorEndEvent, this, false );
 };
@@ -198,25 +191,21 @@ DDD.translate = Modernizr.csstransforms3d ?
   };
 
 
-/* ==================== Start Up ==================== */
+/* ==================== Let's go ==================== */
 
 
 DDD.init = function() {
-  
+
   var ranges = document.querySelectorAll('input[type="range"]'),
       rangesLen = ranges.length,
       i;
-  
+
   if ( rangesLen ) {
-    
-     // create range output display
+
     for ( i=0; i < rangesLen; i++ ) {
       new DDD.RangeDisplay( ranges[i] );
     }
-    
-    // check browser support for range input
-    // this has been hacked together from Modernizr range input test
-    // -> Thanks Faruk Ates, Paul Irish, and Mike Taylor http://modernizr.com
+
     var isRangeSupported = (function() {
       var isSupported = ranges[0].type !== 'text';
       if ( isSupported ) {
@@ -225,22 +214,21 @@ DDD.init = function() {
       }
       return isSupported;
     })();
-    
+
     // create range inputs for iOS
     if ( !isRangeSupported ) {
       for ( i=0; i < rangesLen; i++ ) {
         new DDD.ProxyRange( ranges[i] );
       }
     }
-    
+
   }
-  
+
 };
 
 
 window.addEventListener( 'DOMContentLoaded', DDD.init, false);
 
-// put in global namespace
 window.DDD = DDD;
 
 })();
@@ -267,7 +255,7 @@ function initBox (el) {
 
   for (var i=0, len = showPanelButtons.length; i < len; i++) {
     showPanelButtons[i].addEventListener( 'click', onButtonClick, false);
-  } 
+  }
 }
-  
+
 window.addEventListener( 'DOMContentLoaded', init, false);
