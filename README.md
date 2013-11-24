@@ -1,4 +1,4 @@
-#3D Calendar Cubes
+3D Calendar Cubes
 ==================
 
 [![3D-Calendar-Cubes](http://i3.minus.com/jbxG7x2jq6rsPO.jpg]
