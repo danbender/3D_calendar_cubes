@@ -1,7 +1,7 @@
 #3D Calendar Cubes
 ==================
 
-[![3D-Calendar-Cubes](3D Calendar Cubes)]
+[![3D-Calendar-Cubes](http://min.us/i/CRAfkK3D6J9W]
 
 I visualized the solution to a popular tech interview question using HTML 5, CSS 3 and JavaScript.
 
